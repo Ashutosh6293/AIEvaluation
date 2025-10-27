@@ -145,7 +145,7 @@ const handlePageChange = (newPage) => {
           onClick={handleLogin}
           className="mt-3 w-34 rounded-full border border-gray-300 px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 hover:bg-blue-700 hover:text-white transition-all"
         >
-          Login
+          Logout
         </button>
       </div>
 
