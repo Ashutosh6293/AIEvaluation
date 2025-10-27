@@ -1,0 +1,36 @@
+# ========================
+# Backend
+# ========================
+# Backend
+/Backend/.venv/
+/Backend/.env
+/Backend/__pycache__/
+/Backend/uploads/
+/Backend/videos/
+/Backend/vosk-model-small-hi-0.22/
+
+
+# ========================
+# External Tools / Libraries
+# ========================
+/ffmpeg-8.0-essentials_build/
+/vosk-model-small-hi-0.22/
+
+# ========================
+# Frontend
+# ========================
+/frontendview/node_modules/
+/frontendview/__pycache__/
+/frontendview/public/
+
+# ========================
+# OS / IDE Files
+# ========================
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+*.swo
+*.idea/
+.vscode/
