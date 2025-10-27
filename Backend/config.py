@@ -18,11 +18,15 @@
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env file if present
-load_dotenv()
+# ✅ Force-load .env file from absolute path to avoid "root@localhost" issue
+dotenv_path = os.path.join(os.path.dirname(__file__), ".env")
+if os.path.exists(dotenv_path):
+    load_dotenv(dotenv_path)
+    print(f"🔹 Loaded environment from: {dotenv_path}")
+else:
+    print("⚠️ .env file not found!")
 
 # API Keys
-# OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 # Database Configuration
@@ -37,6 +41,4 @@ SQLALCHEMY_DATABASE_URL = (
     f"mysql+pymysql://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
 
-# Video directory path
-VIDEO_DIR = os.path.join(os.getcwd(), "app", "videos")
-os.makedirs(VIDEO_DIR, exist_ok=True)
+print("✅ Using DB URL:", SQLALCHEMY_DATABASE_URL)
