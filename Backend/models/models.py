@@ -16,7 +16,7 @@ class Employee(Base):
 class Evaluation(Base):
     __tablename__ = "evaluations"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    employee_id = Column(Integer, ForeignKey("employees.punch_no"), nullable=False)
+    employee_id = Column(String, ForeignKey("employees.punch_no"), nullable=False)
     department = Column(String(100), nullable=False)
     question = Column(Text, nullable=False)
     answer = Column(Text, nullable=False)

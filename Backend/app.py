@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
+import uvicorn
 
 from database.database import Base, engine
 from routes import answers, employees, chatgpt_questions, documents
@@ -43,11 +44,8 @@ app.include_router(documents.router)           # /documents/ endpoints
 def root():
     return {"message": "Gautam Solar AI Evaluation API is running!"}
 
-# -------------------- Run Server --------------------
+# # -------------------- Run Server --------------------
+
 if __name__ == "__main__":
-    import uvicorn
-
-    port = int(os.getenv("PORT", 8005))  # Default port = 8000
-    host = os.getenv("HOST", "127.0.0.1")  # Default host = 127.0.0.1
-
-    uvicorn.run("app:app", host=host, port=port, reload=True)
+    # 👇 Fix port to 8000 permanently
+    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
