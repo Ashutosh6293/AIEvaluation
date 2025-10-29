@@ -51,11 +51,11 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 import urllib.parse
 
 # ✅ Read database credentials securely from environment variables
-MYSQL_USER = os.getenv("MYSQL_USER", "root")
-MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "Ashu@620930")  # default for local dev only
-MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
-MYSQL_PORT = os.getenv("MYSQL_PORT", "3306")
-MYSQL_DB = os.getenv("MYSQL_DB", "employee_assessment")
+MYSQL_USER = os.getenv("DB_USER")
+MYSQL_PASSWORD = os.getenv("DB_PASS")  # default for local dev only
+MYSQL_HOST = os.getenv("DB_HOST")
+MYSQL_PORT = os.getenv("DB_PORT")
+MYSQL_DB = os.getenv("DB_NAME")
 
 # Encode password (handles special chars)
 MYSQL_PASSWORD = urllib.parse.quote_plus(MYSQL_PASSWORD)
