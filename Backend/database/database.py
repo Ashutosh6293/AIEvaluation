@@ -49,6 +49,11 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 import urllib.parse
+from dotenv import load_dotenv
+
+# ✅ Load environment variables from .env file
+load_dotenv()
+
 
 # ✅ Read database credentials securely from environment variables
 MYSQL_USER = os.getenv("DB_USER")
