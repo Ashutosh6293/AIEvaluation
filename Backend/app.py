@@ -27,7 +27,7 @@ app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 # -------------------- CORS Middleware --------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # In production, replace "*" with allowed origins
+    allow_origins=["http://93.127.194.235:6500", "http://localhost:5173"],  # In production, replace "*" with allowed origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -48,4 +48,4 @@ def root():
 
 if __name__ == "__main__":
     # 👇 Fix port to 8000 permanently
-    uvicorn.run("app:app", host="0.0.0.0", port=6501, reload=True)
+    uvicorn.run("app:app", host="127.0.0.0", port=6501, reload=True)
