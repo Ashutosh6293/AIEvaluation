@@ -61,7 +61,7 @@ MYSQL_PASSWORD = os.getenv("DB_PASS")  # default for local dev only
 MYSQL_HOST = os.getenv("DB_HOST")
 MYSQL_PORT = os.getenv("DB_PORT")
 MYSQL_DB = os.getenv("DB_NAME")
-
+print(" MYSQL_PASSWORD",MYSQL_PASSWORD)
 # Encode password (handles special chars)
 MYSQL_PASSWORD = urllib.parse.quote_plus(MYSQL_PASSWORD)
 
