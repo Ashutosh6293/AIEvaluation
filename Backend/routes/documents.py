@@ -56,7 +56,7 @@ def overall_top_performers(db: Session = Depends(get_db)):
             # Employee.area.label("department"),
             func.avg(Evaluation.marks).label("avg_marks")
         )
-        .join(Evaluation, Evaluation.employee_id == Employee.id)
+        .join(Evaluation, Evaluation.employee_id == Employee.punch_no)
         .group_by(Employee.punch_no,Employee.name)
         .order_by(func.avg(Evaluation.marks).desc())
         .limit(10)
@@ -77,7 +77,7 @@ def department_top_performers(department: str, db: Session = Depends(get_db)):
             Employee.punch_no,
             func.avg(Evaluation.marks).label("avg_marks")
         )
-        .join(Evaluation, Evaluation.employee_id == Employee.id)
+        .join(Evaluation, Evaluation.employee_id == Employee.punch_no)
         .filter(Employee.department == department)
         .group_by(Employee.id)
         .order_by(func.avg(Evaluation.marks).desc())

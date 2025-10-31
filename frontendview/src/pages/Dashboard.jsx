@@ -430,6 +430,298 @@
 
 
 
+// import React, { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import API from "../api";
+
+// export default function Dashboard() {
+//   const [evaluations, setEvaluations] = useState([]);
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const [file, setFile] = useState(null);
+//   const [department, setDepartment] = useState("");
+//   const [topPerformers, setTopPerformers] = useState([]);
+//   const [deptTopPerformers, setDeptTopPerformers] = useState([]);
+//   const [showFull, setShowFull] = useState(false);
+//   const [currentPage, setCurrentPage] = useState(1);
+//   const itemsPerPage = 6;
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       try {
+//         const res = await API.get("/evaluations/");
+//         setEvaluations(Array.isArray(res.data) ? res.data : []);
+//       } catch (err) {
+//         console.error("Failed to fetch evaluations:", err);
+//         setEvaluations([]);
+//       }
+//     };
+//     fetchData();
+//   }, []);
+
+//   const filteredEvaluations = evaluations.filter((e) =>
+//     e.punch_no?.toString().includes(searchTerm.trim())
+//   );
+
+//   const handleUpload = async () => {
+//     if (!file || !department) {
+//       alert("Please select both file and department");
+//       return;
+//     }
+//     const formData = new FormData();
+//     formData.append("file", file);
+//     formData.append("department", department);
+//     try {
+//       const res = await API.post("/upload_document", formData, {
+//         headers: { "Content-Type": "multipart/form-data" },
+//       });
+//       alert(res.data.message || "File uploaded successfully!");
+//       setFile(null);
+//       setDepartment("");
+//     } catch (error) {
+//       console.error("Upload failed:", error);
+//       alert("Error uploading file");
+//     }
+//   };
+
+//   const fetchTopPerformers = async () => {
+//     try {
+//       const res = await API.get("/top_performers");
+//       setTopPerformers(res.data);
+//     } catch (err) {
+//       console.error("Failed to fetch top performers:", err);
+//     }
+//   };
+
+//   const fetchDeptTopPerformers = async () => {
+//     if (!department) {
+//       alert("Please select a department first");
+//       return;
+//     }
+//     try {
+//       const res = await API.get(`/top_performers/${department}`);
+//       setDeptTopPerformers(res.data);
+//     } catch (err) {
+//       console.error("Failed to fetch department performers:", err);
+//     }
+//   };
+
+//   const totalPages = Math.ceil(filteredEvaluations.length / itemsPerPage);
+//   const currentEvaluations = filteredEvaluations.slice(
+//     (currentPage - 1) * itemsPerPage,
+//     currentPage * itemsPerPage
+//   );
+//   const handlePageChange = (newPage) => {
+//     if (newPage >= 1 && newPage <= totalPages) setCurrentPage(newPage);
+//   };
+
+//   const handleLogout = () => navigate("/");
+
+//   return (
+//     <div className="min-h-screen w-screen bg-gradient-to-br from-red-600 via-red-800 to-white p-8 flex flex-col">
+//       {/* Header */}
+//       <div className="text-center mb-10">
+//         <h1 className="text-4xl font-extrabold text-white drop-shadow-lg animate-pulse">
+//            Gautam Solar Pvt. Ltd.
+//         </h1>
+//         <p className="text-white/90 text-lg mt-2 animate-fadeIn">
+//           AI-Powered Employee Evaluation Dashboard
+//         </p>
+//         <button
+//           onClick={handleLogout}
+//           className="mt-4 bg-white text-purple-600 font-bold px-6 py-2 rounded-full shadow-lg hover:bg-purple-600 hover:text-white transition-all animate-bounce"
+//         >
+//           Logout
+//         </button>
+//       </div>
+
+//       {/* Search */}
+//       <div className="flex justify-end mb-8">
+//         <input
+//           type="text"
+//           placeholder="🔍 Search by Employee ID"
+//           value={searchTerm}
+//           onChange={(e) => setSearchTerm(e.target.value)}
+//           className="w-72 rounded-full border border-white/50 px-4 py-2 shadow-md focus:outline-none focus:ring-2 focus:ring-white/80 transition-all text-White font-medium"
+//         />
+//       </div>
+
+//       {/* Upload Section */}
+//       <div className="backdrop-blur-md bg-white/30 border border-white/40 shadow-lg rounded-2xl p-6 mb-10 hover:scale-105 transition-transform">
+//         <h2 className="text-xl font-bold text-purple-700 mb-4">📄 Upload Documents</h2>
+//         <div className="flex flex-wrap gap-4 items-center">
+//           <select
+//             onChange={(e) => setDepartment(e.target.value)}
+//             value={department}
+//             className="border border-white/40 p-2 rounded-lg shadow-md text-purple-700 font-semibold bg-gradient-to-r from-pink-300 to-purple-300"
+//           >
+//             <option value="">Select Department</option>
+//             {["Production", "Quality", "Maintenance", "Store", "HR", "EHS", "Packaging", "Dispatch", "PPC"].map(d => <option key={d} value={d}>{d}</option>)}
+//           </select>
+
+//           <input
+//             type="file"
+//             onChange={(e) => setFile(e.target.files[0])}
+//             className="border border-white/40 p-2 rounded-lg shadow-md bg-gradient-to-r from-yellow-200 to-orange-200"
+//           />
+
+//           <button
+//             onClick={handleUpload}
+//             className="bg-purple-600 text-purple-700 px-5 py-2 rounded-lg shadow hover:bg-pink-500 transition-all font-bold animate-pulse"
+//           >
+//             Upload
+//           </button>
+//         </div>
+//       </div>
+
+//       {/* Top Performers */}
+//       <div className="backdrop-blur-md bg-white/20 border border-white/40 shadow-lg rounded-2xl p-6 mb-10">
+//         <h2 className="text-xl font-bold text-white mb-4">🏆 Top Performers</h2>
+//         <div className="flex flex-wrap gap-4 mb-6">
+//           <button
+//             onClick={fetchTopPerformers}
+//             className="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all font-bold"
+//           >
+//             Overall Top
+//           </button>
+
+//           <select
+//             onChange={(e) => setDepartment(e.target.value)}
+//             value={department}
+//             className="border border-white/40 p-2 rounded-lg shadow-md text-purple-900 font-semibold bg-gradient-to-r from-pink-300 to-purple-300"
+//           >
+//             <option value="">Select Department</option>
+//             {["Production", "Quality", "Maintenance", "Store", "HR", "EHS", "Packaging", "Dispatch", "PPC"].map(d => <option key={d} value={d}>{d}</option>)}
+//           </select>
+
+//           <button
+//             onClick={fetchDeptTopPerformers}
+//             className="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all font-bold"
+//           >
+//             Dept Top
+//           </button>
+//         </div>
+
+//         {/* Tables */}
+//         {topPerformers?.length > 0 && (
+//           <div className="overflow-x-auto mb-6">
+//             <table className="w-full border border-white/30 rounded-lg text-sm text-white">
+//               <thead className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500">
+//                 <tr>
+//                   <th className="p-2 text-left">Employee</th>
+//                   <th className="p-2 text-left">Punch No.</th>
+//                   <th className="p-2 text-left">Avg Marks</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {topPerformers.map((emp, i) => (
+//                   <tr key={i} className="border-t border-white/30 hover:bg-white/10 transition">
+//                     <td className="p-2">{emp.name}</td>
+//                     <td className="p-2">{emp.punch_no}</td>
+//                     <td className="p-2 font-semibold text-yellow-300">{emp.avg_marks?.toFixed(2)}</td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           </div>
+//         )}
+
+//         {deptTopPerformers?.length > 0 && (
+//           <div className="overflow-x-auto">
+//             <table className="w-full border border-white/30 rounded-lg text-sm text-white">
+//               <thead className="bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-400">
+//                 <tr>
+//                   <th className="p-2 text-left">Employee</th>
+//                   <th className="p-2 text-left">Punch No.</th>
+//                   <th className="p-2 text-left">Avg Marks</th>
+//                 </tr>
+//               </thead>
+//               <tbody>
+//                 {deptTopPerformers.map((emp, i) => (
+//                   <tr key={i} className="border-t border-white/30 hover:bg-white/10 transition">
+//                     <td className="p-2">{emp.name}</td>
+//                     <td className="p-2">{emp.punch_no}</td>
+//                     <td className="p-2 font-semibold text-yellow-300">{emp.avg_marks?.toFixed(2)}</td>
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           </div>
+//         )}
+//       </div>
+
+//       {/* Evaluation Cards */}
+//       {filteredEvaluations.length === 0 ? (
+//         <div className="text-center text-white/70 py-10 text-lg">
+//           No evaluations found 🚫
+//         </div>
+//       ) : (
+//         <>
+//           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+//             {currentEvaluations.map((item) => {
+//               const formattedQuestion = item.question
+//                 ? item.question.replace(/,\s*(?=\d+\.\s)/g, "\n\n").replace(/^Okay.*?:\s*/, "").trim()
+//                 : "No question available";
+
+//               const shortQuestion = formattedQuestion.length > 200
+//                 ? formattedQuestion.slice(0, 200) + "..."
+//                 : formattedQuestion;
+
+//               return (
+//                 <div key={item.id} className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 shadow-lg rounded-2xl p-5 hover:shadow-2xl hover:scale-105 transition-all border border-white/20 text-white">
+//                   <h3 className="text-lg font-bold mb-2">👤 Punch No: <span className="text-yellow-300">{item.punch_no}</span></h3>
+
+//                   <p className="text-sm mb-3 whitespace-pre-line"><strong>Question:</strong> {showFull ? formattedQuestion : shortQuestion}</p>
+//                   {formattedQuestion.length > 200 && (
+//                     <button onClick={() => setShowFull(!showFull)} className="text-yellow-300 text-sm font-semibold hover:underline">{showFull ? "Read Less" : "Read More"}</button>
+//                   )}
+
+//                   <div className="flex items-center gap-2 mb-3 mt-2">
+//                     <strong>Marks:</strong>
+//                     <span className={`px-3 py-1 rounded-full text-white ${item.marks >= 8 ? "bg-green-400" : item.marks >= 5 ? "bg-yellow-300 text-black" : "bg-red-500"}`}>{item.marks}</span>
+//                   </div>
+
+//                   <p className="text-sm mb-3"><strong>Suggestion:</strong> {item.suggestion || "—"}</p>
+
+//                   {item.video_url && (
+//                     <video controls width="100%" height="180" className="rounded-xl border border-white/40 mt-2 shadow-lg">
+//                       <source src={`https://api-aieval.gspl.cloud/${item.video_url}`} type="video/webm" />
+//                       Your browser does not support the video tag.
+//                     </video>
+//                   )}
+
+//                   <div className="mt-4 flex justify-end">
+//                     {item.video_url ? (
+//                       <a href={`https://api-aieval.gspl.cloud/${item.video_url}`} target="_blank" rel="noreferrer"
+//                         className="text-yellow-300 border border-yellow-300 px-4 py-1 rounded-full text-white hover:bg-yellow-300 hover:text-purple-900 transition-all">
+//                         View Full Video
+//                       </a>
+//                     ) : (
+//                       <button disabled className="text-white/50 border border-white/30 px-4 py-1 rounded-full text-sm cursor-not-allowed">No Video</button>
+//                     )}
+//                   </div>
+//                 </div>
+//               );
+//             })}
+//           </div>
+
+//           {/* Pagination */}
+//           {totalPages > 1 && (
+//             <div className="flex justify-center items-center gap-3 mt-8">
+//               <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="px-4 py-2 bg-white/40 rounded-lg hover:bg-white/60 transition-all">⬅ Prev</button>
+//               <span className="text-white font-bold">Page {currentPage} of {totalPages}</span>
+//               <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="px-4 py-2 bg-white/40 rounded-lg hover:bg-white/60 transition-all">Next ➡</button>
+//             </div>
+//           )}
+//         </>
+//       )}
+//     </div>
+//   );
+// }
+
+
+
+
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api";
@@ -518,18 +810,18 @@ export default function Dashboard() {
   const handleLogout = () => navigate("/");
 
   return (
-    <div className="min-h-screen w-screen bg-gradient-to-br from-red-600 via-red-800 to-white p-8 flex flex-col">
+    <div className="min-h-screen w-full bg-gradient-to-br from-[#12071B] via-[#1C0C28] to-[#311E52] text-white px-8 py-6 font-[Poppins]">
       {/* Header */}
       <div className="text-center mb-10">
-        <h1 className="text-4xl font-extrabold text-white drop-shadow-lg animate-pulse">
-          🌞 Gautam Solar Pvt. Ltd.
+        <h1 className="text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 drop-shadow-xl animate-pulse">
+          Gautam Solar Pvt. Ltd.
         </h1>
-        <p className="text-white/90 text-lg mt-2 animate-fadeIn">
+        <p className="text-gray-300 mt-2 text-lg tracking-wide">
           AI-Powered Employee Evaluation Dashboard
         </p>
         <button
           onClick={handleLogout}
-          className="mt-4 bg-white text-purple-600 font-bold px-6 py-2 rounded-full shadow-lg hover:bg-purple-600 hover:text-white transition-all animate-bounce"
+          className="mt-4 bg-gradient-to-r from-pink-500 to-purple-700 hover:from-purple-700 hover:to-pink-500 px-6 py-2 rounded-full text-white font-semibold shadow-lg transition-all duration-300 hover:scale-110"
         >
           Logout
         </button>
@@ -542,32 +834,48 @@ export default function Dashboard() {
           placeholder="🔍 Search by Employee ID"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-72 rounded-full border border-white/50 px-4 py-2 shadow-md focus:outline-none focus:ring-2 focus:ring-white/80 transition-all text-White font-medium"
+          className="w-72 rounded-full px-5 py-2 text-sm bg-[#221535] border border-[#7B5CB8] placeholder-gray-400 focus:ring-2 focus:ring-pink-400 focus:outline-none transition-all"
         />
       </div>
 
       {/* Upload Section */}
-      <div className="backdrop-blur-md bg-white/30 border border-white/40 shadow-lg rounded-2xl p-6 mb-10 hover:scale-105 transition-transform">
-        <h2 className="text-xl font-bold text-purple-700 mb-4">📄 Upload Documents</h2>
+      <div className="bg-[#1F1233]/60 backdrop-blur-xl border border-[#3E2A62] rounded-2xl p-6 mb-10 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-[1.02]">
+        <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-500 mb-4">
+          📄 Upload Evaluation Documents
+        </h2>
         <div className="flex flex-wrap gap-4 items-center">
           <select
             onChange={(e) => setDepartment(e.target.value)}
             value={department}
-            className="border border-white/40 p-2 rounded-lg shadow-md text-purple-700 font-semibold bg-gradient-to-r from-pink-300 to-purple-300"
+            className="bg-[#2C1A47] border border-[#5A3C8A] p-2 rounded-lg text-sm text-gray-300 focus:ring-2 focus:ring-pink-500"
           >
             <option value="">Select Department</option>
-            {["Production", "Quality", "Maintenance", "Store", "HR", "EHS", "Packaging", "Dispatch", "PPC"].map(d => <option key={d} value={d}>{d}</option>)}
+            {[
+              "Production",
+              "Quality",
+              "Maintenance",
+              "Store",
+              "HR",
+              "EHS",
+              "Packaging",
+              "Dispatch",
+              "PPC",
+            ].map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
           </select>
 
           <input
             type="file"
             onChange={(e) => setFile(e.target.files[0])}
-            className="border border-white/40 p-2 rounded-lg shadow-md bg-gradient-to-r from-yellow-200 to-orange-200"
+            className="text-sm text-gray-300 file:mr-3 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-gradient-to-r file:from-pink-500 file:to-purple-600 hover:file:opacity-80"
           />
 
           <button
             onClick={handleUpload}
-            className="bg-purple-600 text-purple-700 px-5 py-2 rounded-lg shadow hover:bg-pink-500 transition-all font-bold animate-pulse"
+            className="bg-gradient-to-r from-pink-500 to-purple-700 hover:from-purple-600 hover:to-pink-500 text-white font-semibold px-6 py-2 rounded-lg shadow-lg transition-all duration-300 hover:scale-105"
           >
             Upload
           </button>
@@ -575,12 +883,14 @@ export default function Dashboard() {
       </div>
 
       {/* Top Performers */}
-      <div className="backdrop-blur-md bg-white/20 border border-white/40 shadow-lg rounded-2xl p-6 mb-10">
-        <h2 className="text-xl font-bold text-white mb-4">🏆 Top Performers</h2>
+      <div className="bg-[#1F1233]/60 backdrop-blur-xl border border-[#3E2A62] rounded-2xl p-6 mb-10 shadow-xl">
+        <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400 mb-4">
+          🏆 Top Performers
+        </h2>
         <div className="flex flex-wrap gap-4 mb-6">
           <button
             onClick={fetchTopPerformers}
-            className="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all font-bold"
+            className="bg-gradient-to-r from-pink-500 to-purple-700 hover:from-purple-600 hover:to-pink-500 px-5 py-2 rounded-full text-white font-semibold transition-all hover:scale-105"
           >
             Overall Top
           </button>
@@ -588,118 +898,164 @@ export default function Dashboard() {
           <select
             onChange={(e) => setDepartment(e.target.value)}
             value={department}
-            className="border border-white/40 p-2 rounded-lg shadow-md text-purple-900 font-semibold bg-gradient-to-r from-pink-300 to-purple-300"
+            className="bg-[#2C1A47] border border-[#5A3C8A] p-2 rounded-lg text-sm text-gray-300 focus:ring-2 focus:ring-yellow-400"
           >
             <option value="">Select Department</option>
-            {["Production", "Quality", "Maintenance", "Store", "HR", "EHS", "Packaging", "Dispatch", "PPC"].map(d => <option key={d} value={d}>{d}</option>)}
+            {[
+              "Production",
+              "Quality",
+              "Maintenance",
+              "Store",
+              "HR",
+              "EHS",
+              "Packaging",
+              "Dispatch",
+              "PPC",
+            ].map((d) => (
+              <option key={d} value={d}>
+                {d}
+              </option>
+            ))}
           </select>
 
           <button
             onClick={fetchDeptTopPerformers}
-            className="bg-white text-purple-600 px-4 py-2 rounded-lg hover:bg-purple-600 hover:text-white transition-all font-bold"
+            className="bg-gradient-to-r from-yellow-400 to-pink-500 hover:from-pink-500 hover:to-yellow-400 px-5 py-2 rounded-full text-purple-900 font-bold transition-all hover:scale-105"
           >
             Dept Top
           </button>
         </div>
 
-        {/* Tables */}
-        {topPerformers?.length > 0 && (
-          <div className="overflow-x-auto mb-6">
-            <table className="w-full border border-white/30 rounded-lg text-sm text-white">
-              <thead className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500">
-                <tr>
-                  <th className="p-2 text-left">Employee</th>
-                  <th className="p-2 text-left">Punch No.</th>
-                  <th className="p-2 text-left">Avg Marks</th>
-                </tr>
-              </thead>
-              <tbody>
-                {topPerformers.map((emp, i) => (
-                  <tr key={i} className="border-t border-white/30 hover:bg-white/10 transition">
-                    <td className="p-2">{emp.name}</td>
-                    <td className="p-2">{emp.punch_no}</td>
-                    <td className="p-2 font-semibold text-yellow-300">{emp.avg_marks?.toFixed(2)}</td>
+        {/* Top Performers Tables */}
+        {[{ title: "Overall", data: topPerformers }, { title: "Department", data: deptTopPerformers }]
+          .filter((section) => section.data?.length > 0)
+          .map((section, idx) => (
+            <div key={idx} className="overflow-x-auto mb-6">
+              <h3 className="text-lg font-semibold text-pink-400 mb-2">
+                {section.title} Performers
+              </h3>
+              <table className="w-full text-sm border border-[#3E2A62] rounded-lg">
+                <thead className="bg-gradient-to-r from-purple-600 via-pink-600 to-yellow-500 text-white">
+                  <tr>
+                    <th className="p-2 text-left">Employee</th>
+                    <th className="p-2 text-left">Punch No.</th>
+                    <th className="p-2 text-left">Avg Marks</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {deptTopPerformers?.length > 0 && (
-          <div className="overflow-x-auto">
-            <table className="w-full border border-white/30 rounded-lg text-sm text-white">
-              <thead className="bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-400">
-                <tr>
-                  <th className="p-2 text-left">Employee</th>
-                  <th className="p-2 text-left">Punch No.</th>
-                  <th className="p-2 text-left">Avg Marks</th>
-                </tr>
-              </thead>
-              <tbody>
-                {deptTopPerformers.map((emp, i) => (
-                  <tr key={i} className="border-t border-white/30 hover:bg-white/10 transition">
-                    <td className="p-2">{emp.name}</td>
-                    <td className="p-2">{emp.punch_no}</td>
-                    <td className="p-2 font-semibold text-yellow-300">{emp.avg_marks?.toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                </thead>
+                <tbody>
+                  {section.data.map((emp, i) => (
+                    <tr
+                      key={i}
+                      className="border-t border-[#3E2A62] hover:bg-[#2C1A47] transition"
+                    >
+                      <td className="p-2">{emp.name}</td>
+                      <td className="p-2">{emp.punch_no}</td>
+                      <td className="p-2 font-semibold text-yellow-400">
+                        {emp.avg_marks?.toFixed(2)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
       </div>
 
       {/* Evaluation Cards */}
       {filteredEvaluations.length === 0 ? (
-        <div className="text-center text-white/70 py-10 text-lg">
+        <p className="text-center text-gray-400 py-12 text-lg">
           No evaluations found 🚫
-        </div>
+        </p>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fadeIn">
             {currentEvaluations.map((item) => {
               const formattedQuestion = item.question
-                ? item.question.replace(/,\s*(?=\d+\.\s)/g, "\n\n").replace(/^Okay.*?:\s*/, "").trim()
+                ? item.question
+                  .replace(/,\s*(?=\d+\.\s)/g, "\n\n")
+                  .replace(/^Okay.*?:\s*/, "")
+                  .trim()
                 : "No question available";
 
-              const shortQuestion = formattedQuestion.length > 200
-                ? formattedQuestion.slice(0, 200) + "..."
-                : formattedQuestion;
+              const shortQuestion =
+                formattedQuestion.length > 200
+                  ? formattedQuestion.slice(0, 200) + "..."
+                  : formattedQuestion;
 
               return (
-                <div key={item.id} className="bg-gradient-to-r from-pink-400 via-purple-500 to-blue-500 shadow-lg rounded-2xl p-5 hover:shadow-2xl hover:scale-105 transition-all border border-white/20 text-white">
-                  <h3 className="text-lg font-bold mb-2">👤 Punch No: <span className="text-yellow-300">{item.punch_no}</span></h3>
-
-                  <p className="text-sm mb-3 whitespace-pre-line"><strong>Question:</strong> {showFull ? formattedQuestion : shortQuestion}</p>
+                <div
+                  key={item.id}
+                  className="bg-[#2C1A47]/70 backdrop-blur-xl border border-[#4B3272] rounded-2xl p-5 shadow-xl hover:shadow-2xl hover:scale-[1.03] transition-all duration-300"
+                >
+                  <h3 className="text-lg font-bold text-yellow-400 mb-2">
+                    👤 Punch No: {item.punch_no}
+                  </h3>
+                  <p className="text-sm text-gray-300 whitespace-pre-line mb-3">
+                    <strong>Question:</strong>{" "}
+                    {showFull ? formattedQuestion : shortQuestion}
+                  </p>
                   {formattedQuestion.length > 200 && (
-                    <button onClick={() => setShowFull(!showFull)} className="text-yellow-300 text-sm font-semibold hover:underline">{showFull ? "Read Less" : "Read More"}</button>
+                    <button
+                      onClick={() => setShowFull(!showFull)}
+                      className="text-pink-400 text-sm hover:underline"
+                    >
+                      {showFull ? "Read Less" : "Read More"}
+                    </button>
                   )}
 
-                  <div className="flex items-center gap-2 mb-3 mt-2">
+                  <div className="flex items-center gap-2 mb-3 mt-3">
                     <strong>Marks:</strong>
-                    <span className={`px-3 py-1 rounded-full text-white ${item.marks >= 8 ? "bg-green-400" : item.marks >= 5 ? "bg-yellow-300 text-black" : "bg-red-500"}`}>{item.marks}</span>
+                    <span
+                      className={`px-3 py-1 rounded-full text-white font-semibold ${item.marks >= 8
+                          ? "bg-green-500"
+                          : item.marks >= 5
+                            ? "bg-yellow-400 text-black"
+                            : "bg-red-500"
+                        }`}
+                    >
+                      {item.marks}
+                    </span>
                   </div>
 
-                  <p className="text-sm mb-3"><strong>Suggestion:</strong> {item.suggestion || "—"}</p>
+                  <p className="text-sm text-gray-300 mb-3">
+                    <strong>Suggestion:</strong> {item.suggestion || "—"}
+                  </p>
 
                   {item.video_url && (
-                    <video controls width="100%" height="180" className="rounded-xl border border-white/40 mt-2 shadow-lg">
-                      <source src={`https://api-aieval.gspl.cloud/${item.video_url}`} type="video/webm" />
+                    <video
+                      controls
+                      width="100%"
+                      height="180"
+                      className="rounded-xl border border-[#5C3E8F] mt-2 shadow-lg"
+                    >
+                      <source
+                        src={`https://api-aieval.gspl.cloud/${item.video_url}`}
+                        type="video/webm"
+                      />
                       Your browser does not support the video tag.
                     </video>
                   )}
 
                   <div className="mt-4 flex justify-end">
                     {item.video_url ? (
-                      <a href={`https://api-aieval.gspl.cloud/${item.video_url}`} target="_blank" rel="noreferrer"
-                        className="text-yellow-300 border border-yellow-300 px-4 py-1 rounded-full text-white hover:bg-yellow-300 hover:text-purple-900 transition-all">
-                        View Full Video
+                      <a
+                        href={`https://api-aieval.gspl.cloud/${item.video_url}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="bg-gradient-to-r from-yellow-400 to-pink-500 text-purple-900 px-4 py-1 rounded-full font-semibold hover:scale-105 transition-all"
+                      >
+                        ▶ Watch Video
                       </a>
                     ) : (
-                      <button disabled className="text-white/50 border border-white/30 px-4 py-1 rounded-full text-sm cursor-not-allowed">No Video</button>
+                      <button
+                        disabled
+                        className="px-4 py-1 rounded-full text-white/50 border border-white/30 cursor-not-allowed"
+                      >
+                        No Video
+                      </button>
                     )}
                   </div>
+
                 </div>
               );
             })}
@@ -707,10 +1063,24 @@ export default function Dashboard() {
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <div className="flex justify-center items-center gap-3 mt-8">
-              <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="px-4 py-2 bg-white/40 rounded-lg hover:bg-white/60 transition-all">⬅ Prev</button>
-              <span className="text-white font-bold">Page {currentPage} of {totalPages}</span>
-              <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="px-4 py-2 bg-white/40 rounded-lg hover:bg-white/60 transition-all">Next ➡</button>
+            <div className="flex justify-center items-center gap-3 mt-10">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 bg-[#2C1A47] text-blue-300 font-semibold border border-[#5A3C8A] rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
+              >
+                ⬅ Prev
+              </button>
+              <span className="text-white-300 font-semibold">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 bg-[#2C1A47] text-blue-300 font-semibold border border-[#5A3C8A] rounded-lg hover:bg-purple-700 transition disabled:opacity-50"
+              >
+                Next ➡
+              </button>
             </div>
           )}
         </>

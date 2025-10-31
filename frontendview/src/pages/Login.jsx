@@ -18,7 +18,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   // console.log(API);
-  
+
   // 🧑‍🏭 Employee Login/Register
   const handleRegisterAndStart = async () => {
     if (!punch_no || !name || !area || !department) {
@@ -64,21 +64,19 @@ export default function Login() {
         <div className="flex justify-center py-2 gap-4 border-b border-gray-600">
           <button
             onClick={() => setMode("employee")}
-            className={`font-semibold text-lg transition-all duration-300 ${
-              mode === "employee"
+            className={`font-semibold text-lg transition-all duration-300 ${mode === "employee"
                 ? "text-blue-400 border-b-4 border-blue-400"
                 : "text-gray-400 hover:text-dark"
-            }`}
+              }`}
           >
             Employee Login
           </button>
           <button
             onClick={() => setMode("admin")}
-            className={`font-semibold text-lg transition-all duration-300 ${
-              mode === "admin"
+            className={`font-semibold text-lg transition-all duration-300 ${mode === "admin"
                 ? "text-blue-400 border-b-4 border-blue-400"
                 : "text-gray-400 hover:text-dark"
-            }`}
+              }`}
           >
             Admin Login
           </button>
@@ -94,7 +92,7 @@ export default function Login() {
               <input
                 type="text"
                 placeholder="Enter Admin Username"
-                 name="admin_username"
+                name="admin_username"
                 autoComplete="off"
                 value={adminUsername}
                 onChange={(e) => setAdminUsername(e.target.value)}
@@ -108,8 +106,8 @@ export default function Login() {
               </label>
               <input
                 type="password"
-                 name="admin_password"
-  autoComplete="new-password"
+                name="admin_password"
+                autoComplete="new-password"
                 placeholder="Enter Admin Password"
                 value={adminPassword}
                 onChange={(e) => setAdminPassword(e.target.value)}
@@ -169,7 +167,7 @@ export default function Login() {
                 <option value="Store">Store</option>
                 <option value="PPC">PPC</option>
                 <option value="HR">HR</option>
-                 <option value="EHS">EHS</option>
+                <option value="EHS">EHS</option>
                 <option value="Packaging">Packaging</option>
                 <option value="Dispatch">Dispatch</option>
               </select>
