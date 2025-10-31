@@ -97,7 +97,7 @@ def list_evaluations(db: Session = Depends(get_db)):
             Evaluation.suggestion,
             Evaluation.video_path,
         )
-        .join(Employee, Evaluation.employee_id == Employee.id)
+        .join(Employee, Evaluation.employee_id == Employee.punch_no)
         .all()
     )
 
