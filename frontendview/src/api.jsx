@@ -9,8 +9,8 @@
 import axios from "axios";
 
 const API = axios.create({
-  // baseURL: "http://93.127.194.235:6501", // FastAPI backend URL
-  baseURL: "http://127.0.0.1:6501", 
+  baseURL: "http://93.127.194.235:6501", 
+  // baseURL: "http://127.0.0.1:8000", 
 });
 
 // -------------------- Employee Evaluations --------------------

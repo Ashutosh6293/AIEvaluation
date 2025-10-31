@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import VideoRecorder from "../components/VideoRecorder";
 import axios from "axios";
+import API from "../api";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+// const API_URL = import.meta.env.VITE_API_URL || "http://93.127.194.235:6501";
 
 export default function Assessment() {
   const [searchParams] = useSearchParams();
@@ -34,8 +35,8 @@ export default function Assessment() {
       try {
         setLoading(true)
         console.log("📥 Fetching questions for Punch No:", punchNo);
-        const res = await axios.get(
-          `${API_URL}/chatgpt_questions/?role=employee&punch_no=${punchNo}`
+        const res = await API.get(
+          `/chatgpt_questions/?role=employee&punch_no=${punchNo}`
         );
         setQuestions(res.data.questions || []);
       } catch (err) {

@@ -1,6 +1,9 @@
 import React, { useRef, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
+const base_url = "http://93.127.194.235:6501"
+// const base_url = "http://127.0.0.1:8000"
+
 export default function VideoRecorder({ onSubmit, employeeId, question,  isLastQuestion,onRecordingChange   }) {
   const videoRef = useRef(null);
   const previewRef = useRef(null);
@@ -114,7 +117,7 @@ export default function VideoRecorder({ onSubmit, employeeId, question,  isLastQ
     formData.append("file", blob, `answer_${Date.now()}.webm`);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/api/upload_answer/", {
+      const res = await fetch(`${base_url}/api/upload_answer/`, {
         method: "POST",
         body: formData,
       });

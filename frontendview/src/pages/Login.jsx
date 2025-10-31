@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API from "../api";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+// const API_URL = import.meta.env.VITE_API_URL;
+
+
 
 export default function Login() {
   const [mode, setMode] = useState("employee"); // "employee" or "admin"
@@ -14,6 +17,8 @@ export default function Login() {
   const [adminPassword, setAdminPassword] = useState("");
   const navigate = useNavigate();
 
+  // console.log(API);
+  
   // 🧑‍🏭 Employee Login/Register
   const handleRegisterAndStart = async () => {
     if (!punch_no || !name || !area || !department) {
@@ -22,7 +27,7 @@ export default function Login() {
     }
 
     try {
-      const res = await axios.post(`${API_URL}/employees/`, {
+      const res = await API.post(`/employees/`, {
         punch_no,
         name,
         department,

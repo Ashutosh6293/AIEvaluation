@@ -6,7 +6,7 @@ class EmployeeSchema(BaseModel):
     area: str
 
 class EvaluationSchema(BaseModel):
-    employee_id: int
+    employee_id: str
     question: str
     answer: str
     marks: int

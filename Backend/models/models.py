@@ -16,12 +16,11 @@ class Employee(Base):
 class Evaluation(Base):
     __tablename__ = "evaluations"
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    employee_id = Column(String(50), ForeignKey("employees.punch_no"), nullable=False)
-    department = Column(String(100), nullable=False)
+    employee_id = Column(Integer, ForeignKey("employees.id"), nullable=False)  # ✅ FK linked to employees.id
+    department = Column(String(100), nullable=False)  # make sure it’s not NULL
     question = Column(Text, nullable=False)
     answer = Column(Text, nullable=False)
     marks = Column(Integer, nullable=False)
-    department=Column(Text,nullable=False)
     suggestion = Column(Text, nullable=True)
     video_path = Column(String(255), nullable=True)
 
