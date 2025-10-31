@@ -27,7 +27,7 @@ app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 # -------------------- CORS Middleware --------------------
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://93.127.194.235:6500", "http://localhost:5173"],  # In production, replace "*" with allowed origins
+    allow_origins=["http://93.127.194.235:6500", "http://localhost:5173","https://aieval.gspl.cloud"],  # In production, replace "*" with allowed origins
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
