@@ -9,7 +9,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://93.127.194.235:6501", 
+  baseURL: "https://api-aieval.gspl.cloud", 
   // baseURL: "http://127.0.0.1:8000", 
 });
 

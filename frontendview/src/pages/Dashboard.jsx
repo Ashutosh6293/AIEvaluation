@@ -685,14 +685,14 @@ export default function Dashboard() {
 
                   {item.video_url && (
                     <video controls width="100%" height="180" className="rounded-xl border border-white/40 mt-2 shadow-lg">
-                      <source src={`http://127.0.0.1:6501/${item.video_url}`} type="video/webm" />
+                      <source src={`https://api-aieval.gspl.cloud/${item.video_url}`} type="video/webm" />
                       Your browser does not support the video tag.
                     </video>
                   )}
 
                   <div className="mt-4 flex justify-end">
                     {item.video_url ? (
-                      <a href={`http://127.0.0.1:6501/${item.video_url}`} target="_blank" rel="noreferrer"
+                      <a href={`https://api-aieval.gspl.cloud/${item.video_url}`} target="_blank" rel="noreferrer"
                         className="text-yellow-300 border border-yellow-300 px-4 py-1 rounded-full text-white hover:bg-yellow-300 hover:text-purple-900 transition-all">
                         View Full Video
                       </a>

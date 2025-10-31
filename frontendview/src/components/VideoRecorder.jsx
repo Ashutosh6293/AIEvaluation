@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const base_url = "http://93.127.194.235:6501"
+const base_url = "https://api-aieval.gspl.cloud"
 // const base_url = "http://127.0.0.1:8000"
 
 export default function VideoRecorder({ onSubmit, employeeId, question,  isLastQuestion,onRecordingChange   }) {
