@@ -518,7 +518,7 @@ export default function Dashboard() {
   const handleLogout = () => navigate("/");
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-br from-purple-600 via-pink-500 to-yellow-400 p-8">
+    <div className="min-h-screen w-screen bg-gradient-to-br from-red-600 via-red-800 to-white p-8 flex flex-col">
       {/* Header */}
       <div className="text-center mb-10">
         <h1 className="text-4xl font-extrabold text-white drop-shadow-lg animate-pulse">
@@ -556,7 +556,7 @@ export default function Dashboard() {
             className="border border-white/40 p-2 rounded-lg shadow-md text-purple-700 font-semibold bg-gradient-to-r from-pink-300 to-purple-300"
           >
             <option value="">Select Department</option>
-            {["Production","Quality","Maintenance","Store","HR","EHS","Packaging","Dispatch","PPC"].map(d => <option key={d} value={d}>{d}</option>)}
+            {["Production", "Quality", "Maintenance", "Store", "HR", "EHS", "Packaging", "Dispatch", "PPC"].map(d => <option key={d} value={d}>{d}</option>)}
           </select>
 
           <input
@@ -591,7 +591,7 @@ export default function Dashboard() {
             className="border border-white/40 p-2 rounded-lg shadow-md text-purple-900 font-semibold bg-gradient-to-r from-pink-300 to-purple-300"
           >
             <option value="">Select Department</option>
-            {["Production","Quality","Maintenance","Store","HR","EHS","Packaging","Dispatch","PPC"].map(d => <option key={d} value={d}>{d}</option>)}
+            {["Production", "Quality", "Maintenance", "Store", "HR", "EHS", "Packaging", "Dispatch", "PPC"].map(d => <option key={d} value={d}>{d}</option>)}
           </select>
 
           <button
@@ -678,14 +678,14 @@ export default function Dashboard() {
 
                   <div className="flex items-center gap-2 mb-3 mt-2">
                     <strong>Marks:</strong>
-                    <span className={`px-3 py-1 rounded-full text-white ${item.marks >= 8 ? "bg-green-400" : item.marks >=5 ? "bg-yellow-300 text-black":"bg-red-500"}`}>{item.marks}</span>
+                    <span className={`px-3 py-1 rounded-full text-white ${item.marks >= 8 ? "bg-green-400" : item.marks >= 5 ? "bg-yellow-300 text-black" : "bg-red-500"}`}>{item.marks}</span>
                   </div>
 
                   <p className="text-sm mb-3"><strong>Suggestion:</strong> {item.suggestion || "—"}</p>
 
                   {item.video_url && (
                     <video controls width="100%" height="180" className="rounded-xl border border-white/40 mt-2 shadow-lg">
-                      <source src={`http://127.0.0.1:6501/${item.video_url}`} type="video/webm"/>
+                      <source src={`http://127.0.0.1:6501/${item.video_url}`} type="video/webm" />
                       Your browser does not support the video tag.
                     </video>
                   )}
